@@ -5,9 +5,11 @@ module.exports = {
   entry: [path.join(__dirname, 'index.js')],
   output: {
     library: 'store',
-    libraryTarget: 'amd',
+    libraryTarget: 'umd',
     path: path.join(__dirname, 'dist'),
-    filename: 'index.js'
+    filename: 'index.js',
+    umdNamedDefine: true,
+    globalObject: `(typeof self !== 'undefined' ? self : this)`
   },
   externals: {
     react: 'react',

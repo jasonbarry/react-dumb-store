@@ -1,7 +1,7 @@
 {
   "name": "react-dumb-store",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "1.0.2",
+  "main": "dist/index.js",
   "author": "Jason Barry",
   "license": "MIT",
   "description": "A small isomorphic state container for React that you can understand in 2 minutes.",
