@@ -4,30 +4,24 @@
   "main": "index.js",
   "author": "Jason Barry",
   "license": "MIT",
-  "description": "An automatic currency converter and formatter for React",
+  "description": "A small isomorphic state container for React that you can understand in 2 minutes.",
   "keywords": [
-    "currency",
-    "conversion",
-    "convert",
-    "format",
-    "price",
-    "cost",
-    "exchange rate",
-    "foreign exchange",
-    "forex",
-    "money"
+    "state container",
+    "react",
+    "simple",
+    "easy"
   ],
   "scripts": {
     "build": "webpack"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jasonbarry/react-forex-price.git"
+    "url": "git+https://github.com/jasonbarry/react-dumb-store.git"
   },
   "bugs": {
-    "url": "https://github.com/jasonbarry/react-forex-price/issues"
+    "url": "https://github.com/jasonbarry/react-dumb-store/issues"
   },
-  "homepage": "https://github.com/jasonbarry/react-forex-price#readme",
+  "homepage": "https://github.com/jasonbarry/react-dumb-store#readme",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "7.2.2",
