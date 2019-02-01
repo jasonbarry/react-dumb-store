@@ -2,6 +2,14 @@
 
 A small isomorphic state container for React that you can understand in 2 minutes.
 
+## Features
+
+- Works on server and client (SSR-friendly)
+- Updates to the store trigger updates to the DOM
+- Caches store values in memory
+- 0 dependencies, 2.48KB minified, 1.07KB gzipped
+
+
 ## Motivation
 
 All these state containers out there are such overkill. You need to learn all this termonology before you can even get started: actions, reducers, action creators... there's so much boilerplate (looking at you, Redux). 
@@ -17,6 +25,7 @@ Can't we make something <s>better</s> simpler?
 ### 1. Provide
 
 ```js
+// _app.js
 import React from 'react'
 import App, { Container } from 'next/app'
 import store, { StoreProvider } from 'react-dumb-store'
@@ -27,7 +36,7 @@ export default class MyApp extends App {
 
     if (!store.get('name')) {
       const res = await fetch('https://api.npms.io/v2/search/suggestions?q=react')
-      store.set({ name: res.data[0].package.name })
+      store.set({ name: res.json()[0].package.name })
     }
 
     return { pageProps }
@@ -62,6 +71,7 @@ export default class MyApp extends App {
 ### 2. Consume
 
 ```js
+// DeeplyNestedChildComponent.js
 import React from 'react'
 import store, { StoreConsumer } from 'react-dumb-store'
 
@@ -88,6 +98,7 @@ export default DeeplyNestedChildComponent
 If you're rendering your markup server-side (like with Next.js), you'll need to hydrate your client so that you avoid a duplicate fetch and that the store can get passed from the server to client. Here we'll edit `_document.js`:
 
 ```js
+// _document.js
 import * as React from 'react'
 import Document, { Main, NextScript } from 'next/document'
 import store, { hydrateStore } from 'react-dumb-store'
