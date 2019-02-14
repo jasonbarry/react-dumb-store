@@ -52,15 +52,17 @@ export default class MyApp extends App {
     store: store.get(),
   }
 
+  componentDidMount() {
+    // sets a function to run after `store.set()` is called
+    store.observe(this.updateStore)
+  }
+
   updateStore = () => {
     this.setState({ store: store.get() })
   }
 
   render() {
     const { Component, pageProps } = this.props
-    
-    // sets a function to run after `store.set()` is called
-    store.observe(this.updateStore)
     
     return (
       <Container>
@@ -108,13 +110,12 @@ If you're rendering your markup server-side (like with Next.js), you'll need to 
 // _document.js
 import React from 'react'
 import Document, { Main, NextScript } from 'next/document'
-import store, { hydrateStore } from 'react-dumb-store'
+import { hydrateStore } from 'react-dumb-store'
 
 export default class extends Document {
   static getInitialProps({ renderPage }) {
     const page = renderPage()
-    const storeHydration = hydrateStore(store)
-    return { ...page, storeHydration }
+    return { ...page }
   }
 
   render() {
@@ -122,7 +123,7 @@ export default class extends Document {
       <html>
         <body>
           <Main />
-          {this.props.storeHydration}
+          {hydrateStore()}
           <NextScript />
         </body>
       </html>

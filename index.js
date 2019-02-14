@@ -1,15 +1,15 @@
 import React from 'react'
 
-const __STATE__ = '__DUMB__'
+const __STORE__ = '__STORE__'
 const isServer = typeof window === 'undefined'
 
 class Store {
   constructor() {
-    this.store = isServer ? {} : window[__STATE__]
+    this.store = isServer ? {} : window[__STORE__] || {}
   }
 
   get(key) {
-    const store = isServer ? this.store : window[__STATE__]
+    const store = isServer ? this.store : window[__STORE__] || {}
     // if no key is passed, return whole store
     return key ? store[key] : store
   }
@@ -22,7 +22,7 @@ class Store {
     }
     // update global on the client
     if (!isServer) {
-      window[__STATE__] = this.store
+      window[__STORE__] = this.store
     }
     // trigger callback function
     if (this.observer) {
@@ -33,16 +33,26 @@ class Store {
   observe(fn) {
     this.observer = fn
   }
+
+  // intended to be called by `hydrateStore` only
+  // only call this clientside if you know what you're doing
+  reset() {
+    this.store = {}
+  }
 }
 
 const store = new Store()
 export default store
 
-export const hydrateStore = myStore => (
-  <script dangerouslySetInnerHTML={{ __html: `window['${__STATE__}'] = ${JSON.stringify(myStore.get())}` }} />
-)
+export const hydrateStore = () => {
+  const hydration = JSON.stringify(store.get())
+  // reset the store so that the server doesn't persist global values
+  store.reset();
+  return(
+    <script dangerouslySetInnerHTML={{ __html: `window['${__STORE__}'] = ${hydration}` }} />
+  )
+}
 
-// flow-disable-next-line
 const Context = React.createContext()
 export const StoreProvider = Context.Provider
 export const StoreConsumer = Context.Consumer
