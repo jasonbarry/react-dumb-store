@@ -12,7 +12,7 @@
     "easy"
   ],
   "scripts": {
-    "build": "webpack"
+    "build": "rm -rf dist && mkdir dist && webpack"
   },
   "repository": {
     "type": "git",
